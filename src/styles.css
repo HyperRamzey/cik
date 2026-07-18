@@ -427,6 +427,30 @@ main {
   color: var(--ink);
   text-shadow: 0 0 22px rgba(45, 226, 230, 0.35);
 }
+
+/* Card image strip */
+.card-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+}
+.card-img-thumb {
+  height: 72px;
+  width: auto;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid rgba(45, 226, 230, 0.2);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.card-img-thumb:hover {
+  border-color: rgba(45, 226, 230, 0.6);
+  transform: scale(1.04);
+}
+
 .script-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-bottom: 18px; }
 .status-tags { display: flex; flex-wrap: wrap; gap: 8px; }
 .tag {
