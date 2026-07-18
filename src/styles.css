@@ -1030,8 +1030,10 @@ html { scrollbar-width: thin; scrollbar-color: var(--teal) #0c0d1b; }
   main { padding: 24px 12px 48px; }
   .script-card {
     padding: 20px;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    /* blur during scroll is the #1 mobile jank source — solid panel instead */
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(24, 28, 58, 0.92);
     animation-name: card-entry-mobile;
   }
   @keyframes card-entry-mobile {
@@ -1042,9 +1044,36 @@ html { scrollbar-width: thin; scrollbar-color: var(--teal) #0c0d1b; }
   .buttons { flex-direction: column; gap: 8px; }
   .btn { width: 100%; min-height: 44px; }
   .btn:hover { transform: translateZ(0) translateY(-2px); }
-  #search-bar { backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-  #crt-overlay { opacity: 0.35; }
+  #search-bar {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(24, 28, 58, 0.92);
+  }
+  /* full-screen multiply blending repaints every frame anything moves */
+  #crt-overlay { opacity: 0.25; mix-blend-mode: normal; }
   #star-constellation { opacity: 0.4; }
+}
+
+/* Coarse-pointer battery/RAM tuning: park the always-running decorative
+   animations (their styled end state remains) and demote layers that no
+   longer animate. The logo glitch and constellation stay alive. */
+@media (hover: none), (pointer: coarse) {
+  .lamhub-text,
+  .x-logo-svg,
+  .x-path,
+  #logo-bottle,
+  .bottle::before,
+  .tag.premium,
+  .placard {
+    animation: none;
+  }
+  .lamhub-text { background-position: 50% 50%; will-change: auto; }
+  .x-logo-svg, #logo-bottle { will-change: auto; }
+  .x-path { stroke: var(--teal); }
+  .script-card, .btn, .placard, .bottle {
+    transform: none;
+    will-change: auto;
+  }
 }
 @media (max-width: 480px) {
   .title-container { flex-direction: column; gap: 10px; padding-top: 72px; }
